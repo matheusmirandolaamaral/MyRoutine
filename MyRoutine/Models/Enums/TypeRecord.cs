@@ -1,6 +1,10 @@
 ﻿namespace MyRoutine.Models.Enums
 {
-    public class TypeRecord
+    enum TypeRecord : int
     {
+        Cosmetic = 0,
+        Diet = 1,
+        SelfCare = 2
+
     }
 }
