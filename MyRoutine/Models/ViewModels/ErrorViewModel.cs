@@ -1,4 +1,4 @@
-namespace MyRoutine.Models
+namespace MyRoutine.Models.ViewModels
 {
     public class ErrorViewModel
     {
