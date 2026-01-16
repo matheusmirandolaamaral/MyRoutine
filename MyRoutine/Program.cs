@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyRoutine.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyRoutineContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MyRoutineContext") ?? throw new InvalidOperationException("Connection string 'MyRoutineContext' not found.")));
+    options.UseMySql(builder.Configuration.GetConnectionString("MyRoutineContext"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MyRoutineContext")), mySqlOptions => mySqlOptions.MigrationsAssembly("MyRoutine")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
