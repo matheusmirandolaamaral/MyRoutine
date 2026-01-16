@@ -1,6 +1,11 @@
 ﻿namespace MyRoutine.Models.Enums
 {
-    public class MealType
+    public enum MealType
     {
+        Breakfast,
+        MorningSnack,
+        Lunch,
+        AfternoonSnack,
+        Dinner
     }
 }
