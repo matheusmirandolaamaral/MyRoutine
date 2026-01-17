@@ -10,6 +10,10 @@ namespace MyRoutine.Models
         public DateTime? DateFinal { get; set; }
         public ICollection<Meal> Meals { get; set; } = new List<Meal>();
 
+        public Diet()
+        {
+        }
+
         public Diet(int id, string name, DateTime dateInitial, DateTime? dateFinal)
         {
             Id = id;

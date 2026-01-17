@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyRoutine.Data;
 using MyRoutine.Models;
+using MyRoutine.Models.ViewModels;
 
 namespace MyRoutine.Controllers
 {
@@ -46,7 +47,14 @@ namespace MyRoutine.Controllers
         // GET: Diets/Create
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new DietFormViewModel()
+            {
+                Diet = new Diet(),
+                Meal = new Meal()
+            };
+            
+            
+            return View(viewModel);
         }
 
         // POST: Diets/Create

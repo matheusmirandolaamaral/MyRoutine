@@ -1,4 +1,5 @@
-﻿@model MyRoutine.Models.Diet
+﻿@using MyRoutine.Models.Enums
+@model MyRoutine.Models.ViewModels.DietFormViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,20 +14,28 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Diet.Name" class="control-label">Nome da Dieta</label>
+                <input asp-for="Diet.Name" class="form-control" />
+                <span asp-validation-for="Diet.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateInitial" class="control-label"></label>
-                <input asp-for="DateInitial" class="form-control" />
-                <span asp-validation-for="DateInitial" class="text-danger"></span>
+                <label asp-for="Diet.DateInitial" class="control-label">Data inicial</label>
+                <input asp-for="Diet.DateInitial" class="form-control" />
+                <span asp-validation-for="Diet.DateInitial" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateFinal" class="control-label"></label>
-                <input asp-for="DateFinal" class="form-control" />
-                <span asp-validation-for="DateFinal" class="text-danger"></span>
+                <label asp-for="Diet.DateFinal" class="control-label">Data final</label>
+                <input asp-for="Diet.DateFinal" class="form-control" />
+                <span asp-validation-for="Diet.DateFinal" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Meal.Type" class="control-label">Data final</label>
+                <select asp-for="Meal.Type" asp-items="Html.GetEnumSelectList<MealType>()">
+                <option value="">Selecione</option>
+                </select>
+            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
