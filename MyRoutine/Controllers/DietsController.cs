@@ -62,13 +62,13 @@ namespace MyRoutine.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DateInitial,DateFinal")] Diet diet)
+        public async Task<IActionResult> Create(Diet diet)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(diet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create","Meals", new {dietId = diet.Id});
             }
             return View(diet);
         }

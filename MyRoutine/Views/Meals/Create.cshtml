@@ -1,0 +1,26 @@
+﻿@using MyRoutine.Models.Enums
+@model Meal
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="DietId" />
+    <div>
+        <label asp-for="Type" > </label>
+        <select asp-for="Type" asp-items="Html.GetEnumSelectList<MealType>()">Selecione</select>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <button type="submit">Salvar</button>
+
+
+
+
+
+</form>
