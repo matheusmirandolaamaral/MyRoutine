@@ -23,25 +23,26 @@ namespace MyRoutine.Controllers
         // GET: Diets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Diet.ToListAsync());
+            return View(await _context.Diets.ToListAsync());
         }
 
         // GET: Diets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var diet = await _context.Diet
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var diet = await  _context.Diets.FirstOrDefaultAsync(x => x.Id == id);
             if (diet == null)
             {
                 return NotFound();
             }
 
-            return View(diet);
+            var meals = await _context.Meals.Where(x => x.DietId == id).ToListAsync();
+
+            var viewModel = new DietDetailsViewModel
+            {
+                Diet = diet,
+                Meals = meals
+            };
+            return View(viewModel);
         }
 
         // GET: Diets/Create
@@ -81,7 +82,7 @@ namespace MyRoutine.Controllers
                 return NotFound();
             }
 
-            var diet = await _context.Diet.FindAsync(id);
+            var diet = await _context.Diets.FindAsync(id);
             if (diet == null)
             {
                 return NotFound();
@@ -132,7 +133,7 @@ namespace MyRoutine.Controllers
                 return NotFound();
             }
 
-            var diet = await _context.Diet
+            var diet = await _context.Diets
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (diet == null)
             {
@@ -147,10 +148,10 @@ namespace MyRoutine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var diet = await _context.Diet.FindAsync(id);
+            var diet = await _context.Diets.FindAsync(id);
             if (diet != null)
             {
-                _context.Diet.Remove(diet);
+                _context.Diets.Remove(diet);
             }
 
             await _context.SaveChangesAsync();
@@ -159,7 +160,7 @@ namespace MyRoutine.Controllers
 
         private bool DietExists(int id)
         {
-            return _context.Diet.Any(e => e.Id == id);
+            return _context.Diets.Any(e => e.Id == id);
         }
     }
 }

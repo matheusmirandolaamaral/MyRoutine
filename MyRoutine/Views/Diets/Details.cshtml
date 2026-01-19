@@ -1,4 +1,4 @@
-﻿@model MyRoutine.Models.Diet
+﻿@model MyRoutine.Models.ViewModels.DietDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,26 +11,48 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Diet.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Diet.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateInitial)
+            @Html.DisplayNameFor(model => model.Diet.DateInitial)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateInitial)
+            @Html.DisplayFor(model => model.Diet.DateInitial)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateFinal)
+            @Html.DisplayNameFor(model => model.Diet.DateFinal)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateFinal)
+            @Html.DisplayFor(model => model.Diet.DateFinal)
         </dd>
     </dl>
+
+    @if (Model.Meals.Any())
+    {
+        <h4>Meal</h4>
+        @foreach(var group in Model.Meals.GroupBy(x => x.Type))
+        {
+            <h5>@Html.DisplayFor(x => group.Key)</h5>
+            <ul>
+                @foreach(var meal in group)
+                {
+                    <li>
+                        @meal.Name - @meal.Calories Kcal
+                    </li>
+                }
+
+            </ul>
+        }
+    }
+    else
+    {
+        <p>Não há refeições para listar</p>
+    }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Diet.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
