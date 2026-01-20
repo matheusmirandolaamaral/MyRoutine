@@ -30,5 +30,20 @@ namespace MyRoutine.Controllers
 
             return RedirectToAction("Details","Diets", new { id = meal.DietId });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var meal = await _context.Meals.FindAsync(id);
+            if(meal == null)
+            {
+                return NotFound();
+            }
+            var dietId = meal.DietId;
+            _context.Meals.Remove(meal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details","Diets", new {id =  dietId});
+        }
     }
 }
