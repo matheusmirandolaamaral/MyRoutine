@@ -40,7 +40,9 @@
                 @foreach(var meal in group)
                 {
                     <li>
-                        @meal.Name - @meal.Calories Kcal - <form asp-controller="Meals" asp-action="Delete" asp-route-id="@meal.Id" method="post"><button type="submit">Remover</button></form>
+                        @meal.Name - @meal.Calories Kcal
+                        <form asp-controller="Meals" asp-action="Edit" asp-route-id="@meal.Id" method="post"><button type="submit">Editar</button></form>
+                        <form asp-controller="Meals" asp-action="Delete" asp-route-id="@meal.Id" method="post"><button type="submit">Remover</button></form>
                     </li>
                 }
 

@@ -45,6 +45,27 @@ namespace MyRoutine.Controllers
             return View(meal);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit( Meal meal)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(meal);
+            }
+            var mealDb = await _context.Meals.FindAsync(meal.Id);
+            if (mealDb == null)
+            {
+                return NotFound();
+            }
+            mealDb.Name = meal.Name;
+            mealDb.Description = meal.Description;
+            mealDb.Calories = meal.Calories;
+            mealDb.Type = meal.Type;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Diets", new { id = mealDb.DietId });
+
+        }
 
 
         [HttpPost]
