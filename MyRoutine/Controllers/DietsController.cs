@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using MyRoutine.Data;
 using MyRoutine.Models;
 using MyRoutine.Models.ViewModels;
+using MyRoutine.Services;
 
 namespace MyRoutine.Controllers
 {
     public class DietsController : Controller
     {
         private readonly MyRoutineContext _context;
+        private readonly MealService _mealService;
 
-        public DietsController(MyRoutineContext context)
+        public DietsController(MyRoutineContext context, MealService mealService)
         {
             _context = context;
+            _mealService = mealService;
         }
 
         // GET: Diets
@@ -36,11 +39,15 @@ namespace MyRoutine.Controllers
             }
 
             var meals = await _context.Meals.Where(x => x.DietId == id).ToListAsync();
+            var totalCalories = await _mealService.SumCalories(id.Value);
 
             var viewModel = new DietDetailsViewModel
             {
                 Diet = diet,
-                Meals = meals
+                Meals = meals,
+                TotalCalories = totalCalories
+                
+                
             };
             return View(viewModel);
         }

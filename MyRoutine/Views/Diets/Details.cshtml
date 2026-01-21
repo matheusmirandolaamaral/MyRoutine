@@ -50,13 +50,15 @@
             
         }
 
-        <a asp-controller="Meals" asp-action="Create" asp-route-dietid="@Model.Diet.Id">Adicionar</a>
+        
     }
     else
     {
         <p>Não há refeições para listar</p>
-        <a asp-controller="Meals" asp-action="Create" asp-route-dietid="@Model.Diet.Id">Adicionar</a>
+        
     }
+    <h5>Total de calories: @Model.TotalCalories kcal</h5>
+    <a asp-controller="Meals" asp-action="Create" asp-route-dietid="@Model.Diet.Id">Adicionar</a>
 </div>
 <div>
     

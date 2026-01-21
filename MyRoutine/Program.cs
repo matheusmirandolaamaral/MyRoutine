@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyRoutine.Data;
+using MyRoutine.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyRoutineContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("MyRoutineContext"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MyRoutineContext")), mySqlOptions => mySqlOptions.MigrationsAssembly("MyRoutine")));
+
+builder.Services.AddScoped<MealService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
