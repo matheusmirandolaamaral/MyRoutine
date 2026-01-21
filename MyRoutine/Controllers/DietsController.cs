@@ -26,7 +26,20 @@ namespace MyRoutine.Controllers
         // GET: Diets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Diets.ToListAsync());
+            var diets = await _context.Diets.ToListAsync();
+            var viewModels = new List<DietIndexViewModel>();
+           foreach(var diet in diets)
+            {
+                var totalCalories = await _mealService.SumCalories(diet.Id);
+
+                viewModels.Add(new DietIndexViewModel
+                {
+                    Diet = diet,
+                    TotalCalories = totalCalories
+                });
+
+            }
+           return View(viewModels);
         }
 
         // GET: Diets/Details/5
