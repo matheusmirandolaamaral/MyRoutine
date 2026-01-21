@@ -38,7 +38,7 @@ namespace MyRoutine.Controllers
                 return NotFound();
             }
 
-            var meals = await _context.Meals.Where(x => x.DietId == id).ToListAsync();
+            var meals = await _context.Meals.Where(x => x.DietId == id).OrderBy(x => x.Type).ToListAsync();
             var totalCalories = await _mealService.SumCalories(id.Value);
 
             var viewModel = new DietDetailsViewModel
