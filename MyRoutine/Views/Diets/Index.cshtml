@@ -17,13 +17,13 @@
 			<div class="col-12 col-md-6 mb-4">
 				<div class="card shadow-sm h-100">
 					<div class="card-body mb-1">
-						<h1 class="card-text text-primary">@diet.Diet.Name</h1>
+						<h5 class="card-text text-primary"><strong class="text-black">Nome: </strong>@diet.Diet.Name</h5>
 						<p class="card-text mb-1">
 							<strong>Início:</strong>
 							@diet.Diet.DateInitial.ToShortDateString()
 						</p>
 						<p class="card-text mb-1">
-							<strong>Início:</strong>
+							<strong>Final:</strong>
 							@diet.Diet.DateFinal?.ToShortDateString()
 						</p>
 						<span class="badge bg-success mt-2">
