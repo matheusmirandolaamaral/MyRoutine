@@ -1,13 +1,18 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MyRoutine.Data;
 using MyRoutine.Models;
 using MyRoutine.Models.ViewModels;
+using MyRoutine.Services;
+using System.Diagnostics;
 
 namespace MyRoutine.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly MyRoutineContext _context;
+        private readonly MealService _mealService;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -18,6 +23,7 @@ namespace MyRoutine.Controllers
         {
             return View();
         }
+
 
         public IActionResult Privacy()
         {
