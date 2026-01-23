@@ -16,5 +16,7 @@ namespace MyRoutine.Data
 
         public DbSet<MyRoutine.Models.Diet> Diets { get; set; } = default!;
         public DbSet<MyRoutine.Models.Meal> Meals { get; set; } = default!;
+        public DbSet<MyRoutine.Models.DailyDiet> DailyDiets { get; set; } = default!;
+
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace MyRoutine.Services
+﻿using MyRoutine.Models;
+
+namespace MyRoutine.Services
 {
-    public class IDailyDietService
+    public interface IDailyDietService
     {
+        Task<DailyDiet?> GetByDateAsync(DateTime date);
+        Task<DailyDiet> SetDietForTodayAsync(int dietId);
     }
 }
