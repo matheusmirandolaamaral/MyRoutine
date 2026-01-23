@@ -15,31 +15,36 @@ namespace MyRoutine.Controllers
                 
         private readonly DailyDietService _dailyDietService;
         private readonly MealService _mealService;
+        private readonly MyRoutineContext _context;
 
-        public HomeController(DailyDietService dailyDietService, MealService mealService)
+        public HomeController(DailyDietService dailyDietService, MealService mealService, MyRoutineContext context)
         {
             _dailyDietService = dailyDietService;
             _mealService = mealService;
+            _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int dietId)
         {
             var dailyDiet = await _dailyDietService.GetByDateAsync(DateTime.Today);
-
-            int? totalCalories = null;
+            var meals = new List<Meal>();
+            int totalCalories = 0;
             int mealsCont = 0;
 
             if (dailyDiet != null)
             {
-                totalCalories = await _mealService.SumCalories(dailyDiet.DietId);
-                mealsCont = await _mealService.CountMelas(dailyDiet.DietId) ?? 0  ;
+                meals = await _context.Meals.Where(x => x.DietId == dailyDiet.DietId ).OrderBy(x => x.Type).ToListAsync();
+                totalCalories = await _mealService.SumCalories(dailyDiet.DietId) ?? 0;
+                mealsCont = await _mealService.CountMeals(dailyDiet.DietId) ?? 0  ;
             }
 
             var viewModel = new HomeViewModel
             {
                 DailyDiet = dailyDiet,
                 TotalCalories = totalCalories,
-                CountMeals = mealsCont
+                CountMeals = mealsCont,
+                Meals = meals
+                
 
             };
 
