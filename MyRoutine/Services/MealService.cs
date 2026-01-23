@@ -18,8 +18,13 @@ namespace MyRoutine.Services
         {
             return await _context.Meals.Where(x => x.DietId == dietId).SumAsync(x => x.Calories);
         }
-        
 
-        
+        public async Task<int?> CountMelas(int dietId)
+        {
+            return await _context.Meals.CountAsync(x => x.DietId == dietId);
+        }
+
+
+
     }
 }

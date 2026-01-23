@@ -33,7 +33,59 @@
 
 	<div class="border-top my-2"></div>
 
+	@if(Model.DailyDiet != null)
+	{
+		<div class="mt-4">
+			<h4>
+				Sua Dieta de Hoje: 
+				<span class="text-primary">@Model.DailyDiet.Diet.Name</span>
+			</h4>
+		</div>
+	}
 
+	@if(Model.DailyDiet != null)
+	{
+		<div class="row mt-4 g-3">
+			<div class="col-md-3">
+				<div class="card shadow-sm h-100">
+					<div class="card-body">
+						<h6 class="text-muted">Calorias da Dieta</h6>
+						<h4 class="fw-bold">@Model.TotalCalories</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card shadow-sm h-100">
+					<div class="card-body">
+						<h6 class="text-muted">Refeições</h6>
+						<h4 class="fw-bold">@Model.CountMeals</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card shadow-sm h-100">
+					<div class="card-body">
+						<h6 class="text-muted">Consumido</h6>
+						<h4 class="fw-bold">0 kcal</h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div class="card shadow-sm h-100">
+					<div class="card-body">
+						<h6 class="text-muted">Água</h6>
+						<h4 class="fw-bold">0 / 2 L</h4>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	}
 
 
 

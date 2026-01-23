@@ -7,6 +7,7 @@ builder.Services.AddDbContext<MyRoutineContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("MyRoutineContext"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MyRoutineContext")), mySqlOptions => mySqlOptions.MigrationsAssembly("MyRoutine")));
 
 builder.Services.AddScoped<MealService>();
+builder.Services.AddScoped<DailyDietService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
