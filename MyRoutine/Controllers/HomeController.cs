@@ -5,24 +5,39 @@ using MyRoutine.Models;
 using MyRoutine.Models.ViewModels;
 using MyRoutine.Services;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MyRoutine.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly MyRoutineContext _context;
-        private readonly MealService _mealService;
+        
+                
+        private readonly DailyDietService _dailyDietService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(DailyDietService dailyDietService)
         {
-            _logger = logger;
+            _dailyDietService = dailyDietService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var dailyDiet = await _dailyDietService.GetByDateAsync(DateTime.Today);
+
+            var viewModel = new HomeViewModel
+            {
+                DailyDiet = dailyDiet
+            };
+
+            return View(viewModel);
         }
+
+        public async Task<IActionResult> SetDiet(int dietId)
+        {
+            await _dailyDietService.SetDietForTodayAsync(dietId);
+            return RedirectToAction(nameof(Index));
+        }
+        
 
 
         public IActionResult Privacy()
