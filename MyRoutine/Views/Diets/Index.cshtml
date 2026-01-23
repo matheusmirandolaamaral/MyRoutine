@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyRoutine.Models.ViewModels.DietIndexViewModel>
+﻿@model MyRoutine.Models.ViewModels.DietSelectViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -12,7 +12,7 @@
 		<a asp-action="Create" class="btn btn-success">+ Nova dieta</a>
 	</div>
 	<div class="row">
-		@foreach(var diet in Model)
+		@foreach(var diet in Model.Diets)
 		{
 			<div class="col-12 col-md-6 mb-4">
 				<div class="card shadow-sm h-100">
@@ -40,12 +40,22 @@
 						<a asp-action="Delete" asp-route-id="@diet.Diet.Id" class="btn btn-sm btn-outline-danger">
 							Excluir
 						</a>
+						@if (Model.SelectMode)
+						{
+							<form asp-action="SelectDiet" method="post" class="d-inline">
+								<input type="hidden" name="dietId" value="@diet.Diet.Id" />
+								<button type="submit" class="btn btn-success">
+									Selecionar
+								</button>
+							</form>
+						}
 					</div>
+
 				</div>
 			</div>
 		}
 	</div>
-	@if (!Model.Any())
+	@if (!Model.Diets.Any())
 	{
 		<div class="alert alert-info text-center">
 			Não há dietas cadastradas

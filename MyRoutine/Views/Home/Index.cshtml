@@ -1,5 +1,4 @@
-﻿@using MyRoutine.Extensions
-@model MyRoutine.Models.ViewModels.HomeViewModel
+﻿@model MyRoutine.Models.ViewModels.HomeViewModel
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -15,7 +14,7 @@
 
 	<div class="row g-3 mt-3">
 		<div class="col-md-6">
-			<a class="btn btn-primary w-100 p-3 text-start" asp-action="Index" asp-controller="Diets">
+			<a class="btn btn-primary w-100 p-3 text-start" asp-action="Index" asp-controller="Diets" asp-route-selectmode="true">
 				<div class="fw-bold">Usar dieta existente</div>
 				<div class="fs-6 opacity-75">
 					Selecionar um plano já criado
@@ -34,17 +33,17 @@
 
 	<div class="border-top my-2"></div>
 
-	@if (Model.DailyDiet != null)
+	@if(Model.DailyDiet != null)
 	{
 		<div class="mt-4">
 			<h4>
-				Sua Dieta de Hoje:
+				Sua Dieta de Hoje: 
 				<span class="text-primary">@Model.DailyDiet.Diet.Name</span>
 			</h4>
 		</div>
 	}
 
-	@if (Model.DailyDiet != null)
+	@if(Model.DailyDiet != null)
 	{
 		<div class="row mt-4 g-3">
 			<div class="col-md-3">
@@ -82,42 +81,6 @@
 					</div>
 				</div>
 			</div>
-			@if (Model.Meals != null && Model.Meals.Any())
-			{
-				<div class="mt-5">
-					<h5 class="mb-3">Refeições de Hoje</h5>
-
-					<div class="list-group">
-						@foreach (var meal in Model.Meals)
-						{
-							<div class="list-group-item">
-								<div class="d-flex justify-content-between align-items-center">
-									<div>
-										<strong>@meal.Name</strong><br />
-										<small class="text-muted">
-											@meal.Type.GetDisplayName()
-											@if (!string.IsNullOrWhiteSpace(meal.Description))
-											{
-												<span>• @meal.Description</span>
-											}
-										</small>
-									</div>
-
-									<span class="fw-bold text-secondary">
-										@meal.Calories kcal
-									</span>
-								</div>
-							</div>
-						}
-					</div>
-				</div>
-			}
-			else if (Model.DailyDiet != null)
-			{
-				<p class="text-muted mt-4">
-					Nenhuma refeição cadastrada para essa dieta.
-				</p>
-			}
 
 
 

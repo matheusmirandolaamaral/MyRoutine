@@ -24,15 +24,21 @@ namespace MyRoutine.Controllers
         }
 
         // GET: Diets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool selectmode = false)
         {
             var diets = await _context.Diets.ToListAsync();
-            var viewModels = new List<DietIndexViewModel>();
+
+            var viewModels = new DietSelectViewModel
+            {
+                SelectMode = selectmode
+            };
+
+           
            foreach(var diet in diets)
             {
                 var totalCalories = await _mealService.SumCalories(diet.Id);
 
-                viewModels.Add(new DietIndexViewModel
+                viewModels.Diets.Add(new DietIndexViewModel
                 {
                     Diet = diet,
                     TotalCalories = totalCalories
