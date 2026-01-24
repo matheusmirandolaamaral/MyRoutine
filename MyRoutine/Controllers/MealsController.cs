@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyRoutine.Data;
 using MyRoutine.Models;
+using MyRoutine.Models.ViewModels;
+using MyRoutine.Services;
 
 namespace MyRoutine.Controllers
 {
@@ -8,10 +11,34 @@ namespace MyRoutine.Controllers
     {
 
         private readonly MyRoutineContext _context;
+        private readonly MealService _mealService;
 
-        public MealsController(MyRoutineContext context)
+        public MealsController(MyRoutineContext context, MealService mealService)
         {
             _context = context;
+            _mealService = mealService;
+        }
+
+        public async Task<IActionResult> Index(int? id)
+        {
+            var diet = await _context.Diets.FirstOrDefaultAsync(x => x.Id == id);
+            if (diet == null)
+            {
+                return NotFound();
+            }
+
+            var meals = await _context.Meals.Where(x => x.DietId == id).OrderBy(x => x.Type).ToListAsync();
+            var totalCalories = await _mealService.SumCalories(id.Value);
+
+            var viewModel = new DietDetailsViewModel
+            {
+                Diet = diet,
+                Meals = meals,
+                TotalCalories = totalCalories
+
+
+            };
+            return View(viewModel);
         }
         public IActionResult Create(int dietId)
         {
@@ -28,7 +55,7 @@ namespace MyRoutine.Controllers
             _context.Meals.Add(meal);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details","Diets", new { id = meal.DietId });
+            return RedirectToAction("Index","Meals", new { id = meal.DietId });
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -63,7 +90,7 @@ namespace MyRoutine.Controllers
             mealDb.Calories = meal.Calories;
             mealDb.Type = meal.Type;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "Diets", new { id = mealDb.DietId });
+            return RedirectToAction("Index", "Meals", new { id = mealDb.DietId });
 
         }
 
@@ -73,14 +100,14 @@ namespace MyRoutine.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var meal = await _context.Meals.FindAsync(id);
-            if(meal == null)
+            if (meal == null)
             {
                 return NotFound();
             }
             var dietId = meal.DietId;
             _context.Meals.Remove(meal);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details","Diets", new {id =  dietId});
+            return RedirectToAction("Index", "Meals", new { id = dietId });
         }
     }
 }

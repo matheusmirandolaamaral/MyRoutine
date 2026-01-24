@@ -31,7 +31,7 @@
 						</span>
 					</div>
 					<div class="card-footer d-flex justify-content-between">
-						<a asp-action="Details" asp-route-id="@diet.Diet.Id" class="btn btn-sm btn-outline-primary">
+						<a  asp-controller="Meals" asp-action="Index" asp-route-id="@diet.Diet.Id" class="btn btn-sm btn-outline-primary">
 							Ver refeição
 						</a>
 						<a asp-action="Edit" asp-route-id="@diet.Diet.Id" class="btn btn-sm btn-outline-secondary">
