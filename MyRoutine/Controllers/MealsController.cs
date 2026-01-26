@@ -110,11 +110,31 @@ namespace MyRoutine.Controllers
             return RedirectToAction("Index", "Meals", new { id = dietId });
         }
 
-        public async Task<IActionResult> SelectMeal(MealIndexViewModel meal)
-        {
-            var meals = await _context.Meals.Where(x => meal.SelectMeals.Contains(x.Id)).ToListAsync();
 
-            return RedirectToAction("Index", "Home");
+
+
+        [HttpPost]
+        public async Task<IActionResult> SelectMeal(MealSelectViewModel model)
+        {
+            var dailyDiet = await _context.DailyDiets.Include(x => x.DailyMeals).FirstOrDefaultAsync(x => x.Id == model.DailyDietId);
+
+            if (dailyDiet == null)
+            {
+                return NotFound();
+            }
+
+            _context.DailyMeals.RemoveRange(dailyDiet.DailyMeals);
+
+            foreach(var mealId in model.SelectMeals)
+            {
+                dailyDiet.DailyMeals.Add(new DailyMeal
+                {
+                    MealId = mealId
+                });
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home", new {dailyDietId = dailyDiet.Id});
         }
     }
 }

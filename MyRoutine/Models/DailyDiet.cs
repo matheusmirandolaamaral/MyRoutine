@@ -9,6 +9,6 @@ namespace MyRoutine.Models
         public int DietId { get; set; }
         public Diet Diet { get; set; }
         public DateTime Date { get; set; }
-
+        public ICollection<DailyMeal> DailyMeals { get; set; } = new List<DailyMeal>();
     }
 }
