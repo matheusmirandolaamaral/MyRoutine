@@ -16,11 +16,13 @@ namespace MyRoutine.Controllers
     {
         private readonly MyRoutineContext _context;
         private readonly MealService _mealService;
+        private readonly DailyDietService _dailyDietService;
 
-        public DietsController(MyRoutineContext context, MealService mealService)
+        public DietsController(MyRoutineContext context, MealService mealService, DailyDietService dailyDietService)
         {
             _context = context;
             _mealService = mealService;
+            _dailyDietService = dailyDietService;
         }
 
         // GET: Diets
@@ -33,8 +35,8 @@ namespace MyRoutine.Controllers
                 SelectMode = selectmode
             };
 
-           
-           foreach(var diet in diets)
+
+            foreach (var diet in diets)
             {
                 var totalCalories = await _mealService.SumCalories(diet.Id);
 
@@ -45,13 +47,13 @@ namespace MyRoutine.Controllers
                 });
 
             }
-           return View(viewModels);
+            return View(viewModels);
         }
 
         // GET: Diets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var diet = await  _context.Diets.FirstOrDefaultAsync(x => x.Id == id);
+            var diet = await _context.Diets.FirstOrDefaultAsync(x => x.Id == id);
             if (diet == null)
             {
                 return NotFound();
@@ -65,8 +67,8 @@ namespace MyRoutine.Controllers
                 Diet = diet,
                 Meals = meals,
                 TotalCalories = totalCalories
-                
-                
+
+
             };
             return View(viewModel);
         }
@@ -79,8 +81,8 @@ namespace MyRoutine.Controllers
                 Diet = new Diet(),
                 Meal = new Meal()
             };
-            
-            
+
+
             return View(viewModel);
         }
 
@@ -95,7 +97,7 @@ namespace MyRoutine.Controllers
             {
                 _context.Add(diet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Create","Meals", new {dietId = diet.Id});
+                return RedirectToAction("Create", "Meals", new { dietId = diet.Id });
             }
             return View(diet);
         }
@@ -188,5 +190,15 @@ namespace MyRoutine.Controllers
         {
             return _context.Diets.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SelectDiet(int dietId)
+        {
+            await _dailyDietService.SetDietForTodayAsync(dietId);
+
+            return RedirectToAction("Index", "Meals", new {  id  = dietId });
+        }
+
+
     }
 }
