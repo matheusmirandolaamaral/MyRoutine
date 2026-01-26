@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyRoutine.Data;
 
@@ -11,9 +12,11 @@ using MyRoutine.Data;
 namespace MyRoutine.Migrations
 {
     [DbContext(typeof(MyRoutineContext))]
-    partial class MyRoutineContextModelSnapshot : ModelSnapshot
+    [Migration("20260126190247_Daily")]
+    partial class Daily
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
