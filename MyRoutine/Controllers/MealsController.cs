@@ -30,7 +30,7 @@ namespace MyRoutine.Controllers
             var meals = await _context.Meals.Where(x => x.DietId == id).OrderBy(x => x.Type).ToListAsync();
             var totalCalories = await _mealService.SumCalories(id.Value);
 
-            var viewModel = new DietDetailsViewModel
+            var viewModel = new MealIndexViewModel
             {
                 Diet = diet,
                 Meals = meals,
@@ -108,6 +108,13 @@ namespace MyRoutine.Controllers
             _context.Meals.Remove(meal);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Meals", new { id = dietId });
+        }
+
+        public async Task<IActionResult> SelectMeal(MealIndexViewModel meal)
+        {
+            var meals = await _context.Meals.Where(x => meal.SelectMeals.Contains(x.Id)).ToListAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

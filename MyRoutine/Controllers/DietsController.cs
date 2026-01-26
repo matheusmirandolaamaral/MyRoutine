@@ -62,7 +62,7 @@ namespace MyRoutine.Controllers
             var meals = await _context.Meals.Where(x => x.DietId == id).OrderBy(x => x.Type).ToListAsync();
             var totalCalories = await _mealService.SumCalories(id.Value);
 
-            var viewModel = new DietDetailsViewModel
+            var viewModel = new MealIndexViewModel
             {
                 Diet = diet,
                 Meals = meals,
